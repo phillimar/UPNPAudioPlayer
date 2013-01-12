@@ -1,0 +1,9 @@
+#!/bin/sh
+
+CMD=audio_player
+
+PID=`ps -e | grep ${CMD} | grep -v grep | awk '{print $1}'`
+if [ "${PID}" != "" ]; then
+	kill ${PID}
+fi
+

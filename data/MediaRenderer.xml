@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+  <specVersion>
+    <major>1</major>
+    <minor>0</minor>
+  </specVersion>
+  <device>
+    <deviceType>urn:schemas-upnp-org:device:MediaRenderer:1</deviceType>
+    <!-- Change he friendlyName to determine how control points describe this player -->
+    <friendlyName>UPNP Audio Player</friendlyName>
+    <manufacturer>Mark Phillips</manufacturer>
+    <modelName>Model A</modelName>
+    <modelNumber>0.1</modelNumber>
+    <!-- Replace this with a read UUID in an installed version -->
+    <UDN>uuid:UUID_MARKER</UDN>
+    
+    <serviceList>
+      <service>
+        <serviceType>urn:schemas-upnp-org:service:RenderingControl:1</serviceType>
+        <serviceId>urn:upnp-org:serviceId:RenderingControl</serviceId>
+        <SCPDURL>/RenderingControl.xml</SCPDURL>
+        <controlURL>/RenderingControl/Control</controlURL>
+        <eventSubURL>/RenderingContro/Event</eventSubURL>
+      </service>
+      
+      <service>
+        <serviceType>urn:schemas-upnp-org:service:ConnectionManager:1</serviceType>
+        <serviceId>urn:upnp-org:serviceId:ConnectionManager</serviceId>
+        <SCPDURL>/ConnectionManager.xml</SCPDURL>
+        <controlURL>/ConnectionManager/Control</controlURL>
+        <eventSubURL>/ConnectionManager/Event</eventSubURL>
+      </service>
+      
+      <service>
+        <serviceType>urn:schemas-upnp-org:service:AVTransport:1</serviceType>
+        <serviceId>urn:upnp-org:serviceId:AVTransport</serviceId>
+        <SCPDURL>/AVTransport.xml</SCPDURL>
+        <controlURL>/AVTransport/Control</controlURL>
+        <eventSubURL>/AVTransport/Event</eventSubURL>
+      </service>
+    </serviceList>
+  </device>
+</root>

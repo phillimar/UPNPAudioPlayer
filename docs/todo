@@ -1,0 +1,18 @@
+Stuff To Do :
+
+The basics work in my set up :
+	Playing a file & playing the next file in the playlist when it finishes
+	Volume control
+	Feedback of the track length + current position on the position slider at the control point
+	Seek
+	Pause/ Next/ Previous
+
+
+Things that might be nice :
+	Icons. Should be easy to add - they need to get added to the device description + the files need to be registered with GUPNP at startup (audio_player.c)
+	Gapless playback. A pain. UPNP gives a "next track URI" action to specify the next track which would enable a renderer to buffer it and give a seamless playback. Problem is the synology control point I use doesn't call it. Also how are you supposed to know whether the playback *should* be gapless or whether you give a reasonable pause.  If anybody gets any good ideas let me know...
+
+
+Places where (I know) it deviates from the UPNP spec
+	UPNP says that if you implement the volume state variable (rendering control service) then you should also implement VolumeDB.  I didn't bother. It doesn't seem to break anything.
+

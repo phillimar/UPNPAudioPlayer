@@ -1,0 +1,14 @@
+# awk script - make_prefix
+# create the prefix for the UPNP service bindings
+{
+	# grab the filename from the end of the path
+	n = split($0, path, "/");
+	fname = path[n]; 
+	
+	# the prefix is the capital letters in the filename, without the extension (and in lower case)
+	split(fname, a, ".");
+	gsub("[a-z]", "", a[1]);
+	gsub("/", "", a[1]);
+	print tolower(a[1]);
+}
+

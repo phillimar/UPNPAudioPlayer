@@ -1,0 +1,45 @@
+#!/bin/sh
+
+CMD=audio_player
+
+# set the location of the audio player binary
+if [ "${AUDIOPLAYER_BIN+set}" != set ]; then
+	# use default bin location
+	AUDIOPLAYER_BIN=~/UPNPAudioPlayer/bin
+fi
+
+
+# figure out where to log
+if [ "${AUDIOPLAYER_LOGS+set}" != set ]; then
+	#logfile override is not set - use the default location
+	LOG_DIR=${AUDIOPLAYER_BIN}/../logs
+	if [ ! -d $LOG_DIR ]; then
+		mkdir $LOG_DIR
+	fi
+else
+	#logfile override is set - just use it
+	if [ ! -d AUDIOPLAYER_LOGS ]; then
+		echo "Override logfile location ${AUDIOPLAYER_LOGS} doesn't exist"
+		exit
+	else
+		LOG_DIR=$AUDIOPLAYER_LOGS
+	fi
+fi
+
+DATE=`date +"%Y_%m_%d"`
+LOG_FILE=${LOG_DIR}/audioplayer_${DATE}.log
+
+
+# check its not already running
+PID=`ps -e | grep ${CMD} | grep -v grep | awk '{print $1}'`
+if [ "${PID}" != "" ]; then
+	echo "Audio Player is already running"
+	exit
+fi
+
+# start 
+AUDIOPLAYER_DATA=${AUDIOPLAYER_BIN}/../data
+export AUDIOPLAYER_DATA
+echo "\n\n*** AUDIO PLAYER STARTUP `date` ***\n" >> ${LOG_FILE}
+`${AUDIOPLAYER_BIN}/${CMD} >> ${LOG_FILE} 2>&1 &`
+
