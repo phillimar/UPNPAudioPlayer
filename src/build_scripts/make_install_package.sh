@@ -21,8 +21,8 @@ if [ -e ./friendlyName ]; then
 	friendlyName=`cat ./friendlyName`
 	echo "Using Friendly Name : ${friendlyName}"
 else
-	echo "Enter a friendly name for this player"
-	read friendlyName
+	friendlyName=UPNPAudioPlayer
+	echo "Using default Friendly Name (create a file containing a different name at src/friendlyName to override)"
 fi
 
 # copy config data
