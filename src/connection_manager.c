@@ -26,7 +26,10 @@ Copyright (C) Mark Phillips 2012
 
 /* state variables */
 static char SourceProtocolInfo[] = "";
+
+/* NOTE : You may need to add other formats here if yours isn't listed (once you've determined GStreamer supports it) */
 static char SinkProtocolInfo[] = "http-get:*:audio/mpeg:*,http-get:*:audio/x-ac3:*,http-get:*:audio/x-m4a:*,http-get:*:audio/m4a:*";
+
 static char CurrentConnectionIDs[] = "0";
 
 

@@ -1,40 +1,40 @@
-UPNP Background
+UPnP Background
 
 
-The basic unit within UPNP is a "device". Devices can be pretty much anything - however within the UPNP AV Architecture the interesting ones are "Media Servers" and "Media Renderers". These are controlled by a "Control Point". 
+The basic unit within UPnP is a "device". Devices can be pretty much anything - however within the UPnP AV Architecture the interesting ones are "Media Servers" and "Media Renderers". These are controlled by a "Control Point". 
  
 - Media Servers are devices that host content, provide services to see indexes of that content and then stream it to other devices.
-- Media Renders are things that render (play) content. Like a TV. Or UPNPAudioPlayer...
+- Media Renders are things that render (play) content. Like a TV. Or UPnPAudioPlayer...
 - Control Points present a user interface that enables somebody to see the index of content hosted by a server and find a Renderer to play it.
 
-A given application could be many of these things (for instance XBMC is all three). UPNPAudioPlayer is a "Media Renderer". As such it implements the MediaRender:1 standard (see http://upnp.org/specs/av/av1/ , specifically http://upnp.org/specs/av/UPnP-av-MediaRenderer-v1-Device.pdf ). It should, therefore, work alongside other UPNP devices, but I've not tested it widely (see the installation doc if you want to see details of the setup I've used).
+A given application could be many of these things (for instance XBMC is all three). UPnPAudioPlayer is a "Media Renderer". As such it implements the MediaRender:1 standard (see http://UPnP.org/specs/av/av1/ , specifically http://UPnP.org/specs/av/UPnP-av-MediaRenderer-v1-Device.pdf ). It should, therefore, work alongside other UPnP devices, but I've not tested it widely (see the installation doc if you want to see details of the setup I've used).
 
 
-UPNP devices provide UPNP "services". A service is a set of related "state variables" and "actions". A state variable defines the state of a device (such as "playing", "paused"). An action tells a device to do something. Like "play this content" or "stop playing". State Variables can be "evented". This means that the device will send a message to other devices (or control points) when the state variable changes. 
+UPnP devices provide UPnP "services". A service is a set of related "state variables" and "actions". A state variable defines the state of a device (such as "playing", "paused"). An action tells a device to do something. Like "play this content" or "stop playing". State Variables can be "evented". This means that the device will send a message to other devices (or control points) when the state variable changes. 
 The MediaRenderer:1 device specification defines three services that a MediaRenderer must support. These are :
-- ConnectionManager:1 (http://upnp.org/specs/av/UPnP-av-ConnectionManager-v1-Service.pdf ). This allows a control point to figure out what formats a Renderer can support.
-- RenderingControl:1 (http://upnp.org/specs/av/UPnP-av-RenderingControl-v1-Service.pdf ). This allows a control point to control how content is rendered. For UPNPAudioPlayer basically this means the volume.
-- AvTransport:1(http://upnp.org/specs/av/UPnP-av-AVTransport-v1-Service.pdf ). This controls the flow of content. E.g. "play this content", "Pause" etc.
+- ConnectionManager:1 (http://UPnP.org/specs/av/UPnP-av-ConnectionManager-v1-Service.pdf ). This allows a control point to figure out what formats a Renderer can support.
+- RenderingControl:1 (http://UPnP.org/specs/av/UPnP-av-RenderingControl-v1-Service.pdf ). This allows a control point to control how content is rendered. For UPnPAudioPlayer basically this means the volume.
+- AvTransport:1(http://UPnP.org/specs/av/UPnP-av-AVTransport-v1-Service.pdf ). This controls the flow of content. E.g. "play this content", "Pause" etc.
 
 
-Devices are defined by "Device Descriptions". This is an XML document that describes what the device is, who made it and the services it offers. Similarly Services are described by "ServiceDescriptions" which are... ...XML documents that describe what actions and state variables the service supports.  What makes UPNP "Plug 'N' Play" is that devices can send these documents to eachother.  So a Control Point can appear on a network and ask a device to describe itself and its services.  Every UPNP device contains a simple webserver that gives access to these documents.  You can see the device and service descriptions that UPNPAudioServer uses in the data directory. :
+Devices are defined by "Device Descriptions". This is an XML document that describes what the device is, who made it and the services it offers. Similarly Services are described by "ServiceDescriptions" which are... ...XML documents that describe what actions and state variables the service supports.  What makes UPnP "Plug 'N' Play" is that devices can send these documents to eachother.  So a Control Point can appear on a network and ask a device to describe itself and its services.  Every UPnP device contains a simple webserver that gives access to these documents.  You can see the device and service descriptions that UPnPAudioServer uses in the data directory. :
 MediaRenderer.xml  describes the device.  The <friendlyName> node controls the name the device appears as. You could change this to something more meaningful to you. Say "Kitchen Stereo".
 AVTransport.xml, ConnectionManager.xml and RenderingControl.xml describe the three services offered by the device.
-UPNP also describes a mechanism for devices to locate each other ( if you really want to know look here : http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v1.0.pdf ).
+UPnP also describes a mechanism for devices to locate each other ( if you really want to know look here : http://UPnP.org/specs/arch/UPnP-arch-DeviceArchitecture-v1.0.pdf ).
 
 
-UPNPAudioPlayer  uses "GUPNP" (http://developer.gnome.org/gupnp/unstable/ ) to implement the various services. GUPNP handles the difficult things like device discovery and hosting a webserver to respond to requests for the device and service description documents.  The application just needs to provide an implementation of the services. 
-UPNPAudioPlayer implements the services with these source files :
+UPnPAudioPlayer  uses "GUPnP" (http://developer.gnome.org/gUPnP/unstable/ ) to implement the various services. GUPnP handles the difficult things like device discovery and hosting a webserver to respond to requests for the device and service description documents.  The application just needs to provide an implementation of the services. 
+UPnPAudioPlayer implements the services with these source files :
 
 	av_transport.[ch]
 	connection_manager.[ch]
 	rendering_control.[ch]
 
-GUPNP provides a tool "gupnp-binding-tool" to help with the service implementations. The tool automatically generates a set of helper functions from the XML service descriptions. UPNPAudioPlayer puts the output from this tool in the  <serviceName>_wrapper.c  source files.
+GUPnP provides a tool "gUPnP-binding-tool" to help with the service implementations. The tool automatically generates a set of helper functions from the XML service descriptions. UPnPAudioPlayer puts the output from this tool in the  <serviceName>_wrapper.c  source files.
 
 The audio_player.c  source file contains the startup and shutdown functions (and main). 
 Finally stream_player.c  contains code that uses GStreamer to actually play the files (see below)
 
 
-Playing the content is done by GStreamer (see http://gstreamer.freedesktop.org/ ). GStreamer is a massively flexible library that allows you to join up multiple audio "elements" into a single "pipeline". For instance you can create a "file" element that reads from a file, join it to a "MP3 decoding element" that decodes the format and finally joins to an "alsa" element that sends it to a soundcard.  Fortunately if you just want to play stuff, it provides a ready built pipeline called "playbin2" that does this. This is what UPNPAudioPlayer uses.
+Playing the content is done by GStreamer (see http://gstreamer.freedesktop.org/ ). GStreamer is a massively flexible library that allows you to join up multiple audio "elements" into a single "pipeline". For instance you can create a "file" element that reads from a file, join it to a "MP3 decoding element" that decodes the format and finally joins to an "alsa" element that sends it to a soundcard.  Fortunately if you just want to play stuff, it provides a ready built pipeline called "playbin2" that does this. This is what UPnPAudioPlayer uses.
 

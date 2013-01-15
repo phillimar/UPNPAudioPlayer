@@ -8,14 +8,15 @@ The "pi" :
 	TRIXES USB Soundcard - basically because I liked the colour...  Analogue audio into a stereo.
 	Edimax EW-7811UN Wireless Network Adapter - because its small. And blue.
 	Samsung power supply - I manage to run both the network + soundcard USB devices without needing a powered hub.
-	I haven't bothered overclocking the PI or changing the GPU/ CPU memory split. I see it using around 30% CPU and 15% memory while playing an aac stream.
+	I haven't bothered overclocking the PI or changing the GPU/ CPU memory split. I see it using around 30%-40% CPU and 15% memory while playing an aac stream.
 
 Other UPNP devices (Media Server & Control Point)
-	I use a Synology NAS & their AudioPlayer application which runs on iOS. I've not tried but I'm told this works well on Andriod as well.
+	I use a Synology NAS & their AudioPlayer application which runs on iOS. I've not tried but I'm told this also works well on Andriod.
 
 
 Installing the Network
 I followed the instructions here : http://www.ctrl-alt-del.cc/2012/05/raspberry-pi-meets-edimax-ew-7811un-wireless-ada.html.  If you are using Raspian you don't need to bother with the firmware bits. You'll also need a version of the kernel module (8192cu.ko) that's compiled against Raspian. I found one here : http://dl.dropbox.com/u/80256631/8192cu-latest.tar.gz
+Note : In the latest
 
 
 USB Soundcard
@@ -55,8 +56,8 @@ Set up the user :
 sudo useradd -m -G audio, users audio_svc
 sudo passwd audio_svc   (and enter a password)
 su audio_svc
-mkdir /home/audio_svc/bin
-Place the audio_player executable, start_audio_player and stop_audio_player scripts in /home/audio_svc/bin
+cd ~
+Unpack the UPNPAudioPlayer.tgz package here.
 
 
 To start UPNPAudioPlayer when the PI boots :
@@ -76,11 +77,11 @@ Create the following script in /etc/init.d.  I called it UPNP_audioplayer
 
 case "${1:-}" in
   stop)
-        echo "Stopping UPNP Audio Player"
+        echo "Stopping UPnP Audio Player"
         /home/audio_svc/bin/stop_audio_player
         ;;
   start)
-        echo "Starting UPNP Audio Player"
+        echo "Starting UPnP Audio Player"
         sudo -u audio_svc /home/audio_svc/bin/start_audio_player
         ;;
   *)
