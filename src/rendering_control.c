@@ -20,6 +20,7 @@ Copyright (C) Mark Phillips 2012
 #include "rendering_control.h"
 #include "RenderingControl_wrapper.c"
 #include "stream_player.h"
+#include "logger.h"
 
 #include <stdio.h>
 
@@ -136,7 +137,7 @@ static void rc_set_volume_db(GUPnPService *service, GUPnPServiceAction *action, 
 
 void rendering_control_init(GUPnPService *service)
 {
-	printf("Rendering Control - init\n");
+	DETAIL("Rendering Control - init\n");
 	
 	rc_last_change_query_connect(service, LastChange_callback, NULL);
 	rc_preset_name_list_query_connect(service, PresetNameList_callback, NULL);

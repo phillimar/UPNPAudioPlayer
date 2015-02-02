@@ -19,6 +19,7 @@ Copyright (C) Mark Phillips 2012
 #include "av_transport.h"
 #include "AVTransport_wrapper.c"
 #include "stream_player.h"
+#include "logger.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -112,7 +113,7 @@ static void set_transport_state( enum transport_state state)
 		strcpy(TransportState, "PAUSED_PLAYBACK");
 		break;
 	default:
-		printf("set_transport_state - unknown state\n");
+		WARN("set_transport_state - unknown state\n");
 	}
 }
 
@@ -298,8 +299,6 @@ static void avt_last_change_notify_int(GUPnPService *service, const char* variab
 		 i);
 		 
 	rc_last_change_variable_notify(service, LastChange);
-	
-	// printf("Event Last Change (int) %s\n", LastChange);
 }
 
 
@@ -312,8 +311,6 @@ static void avt_last_change_notify_string(GUPnPService *service, const char* var
 		 s);
 		 
 	rc_last_change_variable_notify(service, LastChange);
-	
-	// printf("Event Last Change (string) %s\n", LastChange);
 }
 
 /* actions */
@@ -336,9 +333,8 @@ static void avt_set_av_transport_uri(GUPnPService *service, GUPnPServiceAction *
 	
 	gupnp_service_action_return(action);
 	
-	printf("Set AVTransportURI %s\n", AVTransportURI);
-	printf("Set AVTransportURI Meta Data%s\n", AVTransportURIMetaData);
-	
+	DETAIL("Set AVTransportURI %s\n", AVTransportURI);
+	DETAIL("Set AVTransportURI Meta Data%s\n", AVTransportURIMetaData);
 }
 
 static void avt_set_next_av_transport_uri(GUPnPService *service, GUPnPServiceAction *action, gpointer user_data)
@@ -355,8 +351,6 @@ static void avt_set_next_av_transport_uri(GUPnPService *service, GUPnPServiceAct
 	/* TODO : implement call to stream player */
 	
 	gupnp_service_action_return(action);
-	
-	// printf("Set NextAVTransportURI %s\n", NextAVTransportURI);
 }
 
 static void avt_get_media_info(GUPnPService *service, GUPnPServiceAction *action, gpointer user_data)
@@ -439,7 +433,7 @@ static void avt_play(GUPnPService *service, GUPnPServiceAction *action, gpointer
 	
 	gupnp_service_action_return(action);
 	
-	// printf("Play\n");
+	DETAIL("Play\n");
 }
 
 static void avt_pause(GUPnPService *service, GUPnPServiceAction *action, gpointer user_data)
@@ -454,7 +448,7 @@ static void avt_pause(GUPnPService *service, GUPnPServiceAction *action, gpointe
 	
 	gupnp_service_action_return(action);
 	
-	// printf("Pause\n");
+	DETAIL("Pause\n");
 }
 
 static void avt_stop(GUPnPService *service, GUPnPServiceAction *action, gpointer user_data)
@@ -470,7 +464,7 @@ static void avt_stop(GUPnPService *service, GUPnPServiceAction *action, gpointer
 	
 	gupnp_service_action_return (action);
 	
-	// printf("Stop Instance ID %d\n", instance_id);
+	DETAIL("Stop Instance ID %d\n", instance_id);
 }
 
 static void avt_seek(GUPnPService *service, GUPnPServiceAction *action, gpointer user_data)
@@ -491,11 +485,11 @@ static void avt_seek(GUPnPService *service, GUPnPServiceAction *action, gpointer
 		strcpy(RelativeTimePosition, target);
 		avt_last_change_notify_string(service, "RelativeTimePosition", RelativeTimePosition);
 		
-		// printf("Seek Unit : %s, Target %s\n", unit, target);
+		DETAIL("Seek Unit : %s, Target %s\n", unit, target);
 	}
 	else
 	{
-		printf("Seek Unit : %s, Target %s - NOT SUPPORTED\n", unit, target);
+		WARN("Seek Unit : %s, Target %s - NOT SUPPORTED\n", unit, target);
 	}
 	
 	gupnp_service_action_return(action);
@@ -512,7 +506,7 @@ static void avt_next(GUPnPService *service, GUPnPServiceAction *action, gpointer
 	
 	gupnp_service_action_return(action);
 	
-	// printf("Next\n");
+	WARN("Next - Not implemented\n");
 }
 
 static void avt_previous(GUPnPService *service, GUPnPServiceAction *action, gpointer user_data)
@@ -524,12 +518,12 @@ static void avt_previous(GUPnPService *service, GUPnPServiceAction *action, gpoi
 	
 	gupnp_service_action_return(action);
 	
-	// printf("Previous\n");
+	WARN("Previous - Not implemented\n");
 }
 
 void av_transport_init(GUPnPService *service)
 {
-	printf("AV Transport - init\n");
+	DETAIL("AV Transport - init\n");
 	
 	_service = service;
 	

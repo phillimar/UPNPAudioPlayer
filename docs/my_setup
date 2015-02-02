@@ -1,5 +1,10 @@
-My Setup
+Note :
+The vast majority of what's below is now redundant with the lastest Rasbian builds.
+For the current build (2014-12-24 at the time of writing) at http://www.raspberrypi.org/downloads/ audio and wireless networking work out of the box for me. I'm using a generic wifi adapter on a RPI model A+ and audio directly off the PI.
 
+
+
+My origial Setup - most most of this isn't necessary in the latest Raspbian builds :
 
 Not trying to plug anything - but the stuff below works for me. 
 
@@ -16,7 +21,6 @@ Other UPNP devices (Media Server & Control Point)
 
 Installing the Network
 I followed the instructions here : http://www.ctrl-alt-del.cc/2012/05/raspberry-pi-meets-edimax-ew-7811un-wireless-ada.html.  If you are using Raspian you don't need to bother with the firmware bits. You'll also need a version of the kernel module (8192cu.ko) that's compiled against Raspian. I found one here : http://dl.dropbox.com/u/80256631/8192cu-latest.tar.gz
-Note : In the latest
 
 
 USB Soundcard

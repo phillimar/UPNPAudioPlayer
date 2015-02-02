@@ -6,12 +6,12 @@
   </specVersion>
   <device>
     <deviceType>urn:schemas-upnp-org:device:MediaRenderer:1</deviceType>
-    <!-- Change he friendlyName to determine how control points describe this player -->
+    <!-- Change the friendlyName to determine how control points describe this player -->
     <friendlyName>UPNP Audio Player</friendlyName>
     <manufacturer>Mark Phillips</manufacturer>
     <modelName>Model A</modelName>
     <modelNumber>0.1</modelNumber>
-    <!-- Replace this with a read UUID in an installed version -->
+    <!-- Replace this with a real UUID in an installed version -->
     <UDN>uuid:UUID_MARKER</UDN>
     
     <serviceList>

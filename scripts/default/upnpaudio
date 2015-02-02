@@ -1,0 +1,6 @@
+# Default settings for upnp audio player. This file is sourced by /bin/sh from
+# /etc/init.d/upnpaudio.
+
+# Options to pass to sshd
+UPNPAUDIO_OPTS="-dp /etc/upnpaudio -i wlan0"
+

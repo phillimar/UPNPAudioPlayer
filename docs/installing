@@ -1,0 +1,30 @@
+to install use :
+sudo make install
+
+to uninstall use :
+sudo make uninstall
+
+However you probably want to mess with some options before you do that...
+
+To set a "friendly name" (the name the device appears as on the network) create a file named "friendlyName" in the src directory containing the name to use.
+for example :
+cd UPNPAudioPlayer/src
+echo 'My UPNP Device' > friendlyName
+make spotless
+sudo make install
+
+Stuff to tweak after you've installed :
+If you don't want to start at boot time
+sudo update-rc.d upnpaudio remove
+(to re-enable "sudo update-rc.d upnpaudio defaults")
+
+The installer installs to the following locations :
+Binary : /usr/sbin/upnpaudiod
+Start/Stop script : /etc/init.d/upnpaudio
+UPnP device and service description XML : /etc/upnpaudio     [ Note : you can also change the Friendly Name here ]
+Default command line parameters : /etc/default/upnpaudio     [ Note : default is to start on wlan0 network interface ]
+Man Pages : /usr/share/man/man1/upnpaudiod.1.gz
+
+Logs will go to /var/log/syslog
+grep upnpaudioplayer /var/log/syslog
+

@@ -1,0 +1,71 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:		upnpaudiod
+# Required-Start:	$remote_fs $syslog
+# Required-Stop:	$remote_fs $syslog
+# Default-Start:	2 3 4 5
+# Default-Stop:		0 1 6
+# Short-Description:	UPNP Audio Player Daemon
+### END INIT INFO
+
+set -e
+
+# /etc/init.d/upnpaudio: start and stop the UPNP Audio Player daemon
+
+test -x /usr/sbin/upnpaudiod || exit 0
+( /usr/sbin/upnpaudiod -h 2>&1 | grep -q UPNPAudioPlayer ) 2>/dev/null || exit 0
+
+umask 022
+
+if test -f /etc/default/upnpaudio; then
+    . /etc/default/upnpaudio
+fi
+
+. /lib/lsb/init-functions
+
+if [ -n "$2" ]; then
+    UPNPAUDIO_OPTS="$UPNPAUDIO_OPTS $2"
+fi
+
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
+case "$1" in
+  start)
+	log_daemon_msg "Starting UPNP Audio Player" "upnpaudiod" || true
+	if start-stop-daemon --start --quiet --oknodo --exec /usr/sbin/upnpaudiod -- $UPNPAUDIO_OPTS; then
+	    log_end_msg 0 || true
+	else
+	    log_end_msg 1 || true
+	fi
+	;;
+  stop)
+	log_daemon_msg "Stopping UPNP Audio Player" "upnpaudiod" || true
+	if start-stop-daemon --stop --exec /usr/sbin/upnpaudiod --quiet --oknodo; then
+	    log_end_msg 0 || true
+	else
+	    log_end_msg 1 || true
+	fi
+	;;
+
+  restart)
+	log_daemon_msg "Restarting UPNP Audio Player" "upnpaudiod" || true
+	start-stop-daemon --stop --quiet --oknodo --retry 30 --exec /usr/sbin/upnpaudiod
+	if start-stop-daemon --start --quiet --oknodo --exec /usr/sbin/upnpaudiod -- $UPNPAUDIO_OPTS; then
+	    log_end_msg 0 || true
+	else
+	    log_end_msg 1 || true
+	fi
+	;;
+
+  status)
+	status_of_proc /usr/sbin/upnpaudiod upnpaudiod && exit 0 || exit $?
+	;;
+
+  *)
+	log_action_msg "Usage: /etc/init.d/upnpaudiod {start|stop|restart|status}" || true
+	exit 1
+esac
+
+exit 0
+

@@ -4,16 +4,16 @@ BINDING_TOOL=gupnp-binding-tool
 BINDING_TOOL_FLAGS=-m server
 
 CFLAGS = -c $(shell pkg-config --cflags gupnp-1.0) $(shell pkg-config --cflags gstreamer-0.10)		 
-LDFLAGS = $(shell pkg-config --libs gupnp-1.0) $(shell pkg-config --libs gstreamer-0.10)
+LDFLAGS = $(shell pkg-config --libs gupnp-1.0) $(shell pkg-config --libs gssdp-1.0) $(shell pkg-config --libs gstreamer-0.10)
 
-SOURCES=audio_player.c av_transport.c connection_manager.c rendering_control.c stream_player.c
+SOURCES=audio_player.c av_transport.c connection_manager.c rendering_control.c stream_player.c logger.c
 OBJECTS=$(SOURCES:.c=.o)
 
 XML_DIR=../data
 XML_SOURCES=AVTransport.xml ConnectionManager.xml RenderingControl.xml
 XML_OBJECTS=$(XML_SOURCES:.xml=_wrapper.c)
 
-EXECUTABLE=audio_player
+EXECUTABLE=upnpaudiod
 
 
 all: wrappers audio_player
@@ -42,5 +42,8 @@ spotless:
 	rm -rf UPNPAudioPlayer.tgz
 
 install: all
-	sh ./build_scripts/make_install_package.sh
+	sh ./build_scripts/install_upnpaudio.sh
+
+uninstall:
+	sh ./build_scripts/uninstall_upnpaudio.sh
 

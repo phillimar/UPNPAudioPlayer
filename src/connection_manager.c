@@ -18,6 +18,7 @@ Copyright (C) Mark Phillips 2012
 
 #include "connection_manager.h"
 #include "ConnectionManager_wrapper.c"
+#include "logger.h"
 
 #include <stdio.h>
 
@@ -73,7 +74,7 @@ static void cm_get_current_connection_i_ds(GUPnPService *service, GUPnPServiceAc
 
 void connection_manager_init(GUPnPService *service)
 {
-	printf("Connection Manager - init\n");
+	DETAIL("Connection Manager - init\n");
 	
 	cm_source_protocol_info_query_connect(service, SourceProtocolInfo_callback, NULL);
 	cm_sink_protocol_info_query_connect(service, SinkProtocolInfo_callback, NULL);

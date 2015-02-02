@@ -1,0 +1,27 @@
+.TH upnpaudiod 1 "19 January 2015" "Version 1.00"
+.SH NAME
+upnpaudiod - upnpaudio player daemon
+.SH Description
+.B upnpaudiod
+is a program that plays streamed audio controlled via upnp. 
+
+.SH Overview
+upnpaudio is controlled via a UPnP control point. It uses gstreamer for audio playback, hence supports any format supported by gstreamer.
+
+.SH Options
+.IP "-h"
+Displays command line options
+.IP "-i <interface name>"
+Starts upnpaudiod using the specified network interface
+.IP "-p <path>"
+Specifies the path to the upnp device and service configuration files
+.IP "-v"
+Enables verbose logging
+.IP "-d"
+Daemon mode. In deamon mode upnpaudiod logs to syslog. If the network interface is unavailale at startup then upnpaudiod will retry at 1 minute intervals for 10 minutes then 10 minute intervals thereafter.
+
+
+.SH Author
+.B upnpaudiod
+was written by Mark Phillips <phillimar@gmail.com>.
+

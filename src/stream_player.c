@@ -18,6 +18,7 @@ Copyright (C) Mark Phillips 2012
 
 #include "stream_player.h"
 #include "av_transport.h"
+#include "logger.h"
 
 #include <gst/gst.h>
 
@@ -33,7 +34,7 @@ static gboolean bus_call(GstBus *bus, GstMessage *msg, void *user_data)
 {
 	switch (GST_MESSAGE_TYPE(msg)) {
 	case GST_MESSAGE_EOS: {
-		printf("stream player : end of stream\n");
+		DETAIL("stream player : end of stream\n");
 		avt_notify_endofstream();
 		gst_element_set_state(GST_ELEMENT(_pipeline), GST_STATE_READY);
 		break;
@@ -41,7 +42,7 @@ static gboolean bus_call(GstBus *bus, GstMessage *msg, void *user_data)
 	case GST_MESSAGE_ERROR: {
 		GError *err;
 		gst_message_parse_error(msg, &err, NULL);
-		printf("GStreamer Error : %s\n", err->message);
+		WARN("GStreamer Error : %s\n", err->message);
 		avt_notify_error( err->message );
 		g_error_free(err);
 		break;
@@ -49,7 +50,6 @@ static gboolean bus_call(GstBus *bus, GstMessage *msg, void *user_data)
 	case GST_MESSAGE_BUFFERING: {
 		gint percent = 0;
 		gst_message_parse_buffering(msg, &percent);
-		// printf("Buffering (%u %)\n", percent);
 		// if buffering < 100% we want to pause
 		// otherwise can play the stream
 		break;
@@ -143,7 +143,7 @@ void stream_player_init()
 {
 	GstBus *bus;
 	
-	printf("Stream Player - init\n");
+	DETAIL("Stream Player - init\n");
 
 	gst_init(NULL, NULL);
 	  
@@ -158,7 +158,7 @@ void stream_player_init()
 
 void stream_player_shutdown()
 {
-	printf("Stream Player - shutdown\n");
+	DETAIL("Stream Player - shutdown\n");
 	
 	gst_element_set_state(GST_ELEMENT(_pipeline), GST_STATE_NULL);
 	gst_object_unref(_pipeline);

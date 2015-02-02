@@ -24,7 +24,11 @@ How do I build and use it ?
 It requires the GUPNP and GStreamer libraries to be installed. The installer also requires the uuidgen utility. To do this under Debian :  
 sudo apt-get update  
 sudo apt-get -y install libgstreamer0.10-0 libgstreamer0.10-dev gstreamer0.10-tools gstreamer0.10-doc  
-sudo apt-get -y install gstreamer0.10-alsa gstreamer0.10-plugins-base-apps gstreamer0.10-plugins-base-doc gstreamer0.10-plugins-base gstreamer0.10-plugins-good gstreamer0.10-plugins-good-doc gstreamer0.10-plugins-bad gstreamer0.10-plugins-bad-doc gstreamer0.10-plugins-ugly gstreamer0.10-plugins-ugly-doc gst123  
+sudo apt-get -y install gstreamer0.10-alsa gstreamer0.10-plugins-base-apps gst123  
+sudo apt-get -y install gstreamer0.10-plugins-base-doc gstreamer0.10-plugins-base   
+sudo apt-get -y install gstreamer0.10-plugins-good gstreamer0.10-plugins-good-doc   
+sudo apt-get -y install gstreamer0.10-plugins-bad gstreamer0.10-plugins-bad-doc   
+sudo apt-get -y install gstreamer0.10-plugins-ugly gstreamer0.10-plugins-ugly-doc   
 sudo apt-get -y install gupnp-tools libgupnp-1.0-4 libgupnp-1.0-dev libgupnp-doc  
 sudo apt-get -y install uuid-runtime  
 
@@ -33,22 +37,24 @@ cd UPNPAudioPlayer/src
 make spotless ; make  
 
 To run it :  
-./audio_player  
+./upnpaudiod  
 
-To make an installable package :  
+To see command line options :  
+./upnpaudiod -h  
+
+
+How do I install it ?
+---------------------
+Read the docs/installing before you do this...
+
 make spotless  
-make install  
+sudo make install  
 
-This will create a UPNPAudioPlayer.tgz file in the src directory. Copy this file to where ever you want to install then do :  
-tar -xvzf UPNPAudioPlayer.tgz
-which will unpack it. It'll unpack to a directory named UPNPAudioPlayer. So don't try and unpack to the same place as you put the source...
+The default install may not be useful to you. It defaults to the wireless network interface (wlan0) and it will configure itself to startup at boot. Logs are at /var/log/syslog.  
 
-To start and stop the player use :
-UPNPAudioPlayer/bin/start_audio_player
-and
-UPNPAudioPlayer/bin/stop_audio_player
-
-You'll likely want to add UPNPAudioPlayer/bin to your PATH.
+I installed it. How do I get rid of it ?
+----------------------------------------
+sudo make uninstall
 
 
 What audio formats does it support ?
@@ -63,21 +69,6 @@ Use the "gst123" app we installed above. For example :
 gst123 file:///home/pi/mytrack.mp3
 
 
-I don't get any audio output from my PI. What do I do ?
--------------------------------------------------------
-For the PI's audio jack try :
-
-sudo modprobe snd-bcm2385
-
-At the time of writing quality isn't great. I'm sure the wonderful PI folk will sort this out over time.
-
-USB :
-Have a look at the "my-setup" in the docs directory
-
-HDMI : 
-No idea. Look at the PI forums.
-
-
 I can't build it - what do I do ?
 ---------------------------------
 Check you've installed the dependencies above.  
@@ -90,7 +81,7 @@ Can you build anything ?  cc -v ?
 
 Will it run on other linux machines?
 ------------------------------------
-I've built on Ubuntu 12.10. I'd imagine it will work under other linux flavours but I've not tried.
+I've built on various versions of Ubuntu between 12.10 and 14.04. I'd imagine it will work under other linux flavours but I've not tried.
 
 
 How do I find it more ?
